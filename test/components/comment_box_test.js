@@ -6,6 +6,7 @@ describe('CommentBox' , () => {
   // need to initialize variable before the beforeEach
   let component;
 
+  // before each is additive in nature, so it will also apply to nested describes
   beforeEach(() => {
     component = renderComponent(CommentBox);
   });
@@ -21,4 +22,24 @@ describe('CommentBox' , () => {
   it('has a button', () => {
     expect(component.find('button')).to.exist;
   });
+
+
+  describe('entering some text', () => {
+    let comment;
+
+    beforeEach(() => {
+      comment = 'test comment';
+      component.find('textarea').simulate('change', comment);
+    });
+
+    it('shows entered text in text area', () => {
+      expect(component.find('textarea')).to.have.value(comment)
+    });
+
+    it('when submitted, clears the input', () => {
+      component.simulate('submit');
+      expect(component.find('textarea')).to.have.value('');
+    });
+  })
+
 });
